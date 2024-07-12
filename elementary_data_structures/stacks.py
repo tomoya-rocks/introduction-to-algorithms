@@ -9,7 +9,7 @@ class Element:
 
     def __init__(self, data):
         self.data = data
-        self.next = next
+        self.next = None
 
 
 class Stack:
