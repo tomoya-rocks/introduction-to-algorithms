@@ -9,11 +9,15 @@ class Color(enum.Enum):
 
 class Element:
 
-    __slots__ = ['key', 'left', 'right', 'parent']
+    __slots__ = ['key', 'left', 'right', 'parent', 'color']
 
-    def __init__(self, key):
+    def __init__(self, key, color=Color.RED):
         self.key = key
         self.left = self.right = self.parent = None
+        self.color = color
+
+    def __str__(self):
+        return f"{self.key}({self.color.value})"
 
 
 class Tree:
