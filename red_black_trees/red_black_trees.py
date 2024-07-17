@@ -70,7 +70,7 @@ class Tree:
         return p
 
     def successor(self, z):
-        if z.right:
+        if z.right != nil():
             p = z.right
             while p.left:
                 p = p.left
@@ -78,7 +78,7 @@ class Tree:
             return p
         else:
             p, q = z, z.parent
-            while q and p == q.right:
+            while q != nil() and p == q.right:
                 p = q
                 q = q.parent
 
@@ -87,9 +87,9 @@ class Tree:
     def remove(self, z):
         self.size -= 1
 
-        if not z.left:
+        if z.left == nil():
             self.__transplant(z, z.right)
-        elif not z.right:
+        elif z.right == nil():
             self.__transplant(z, z.left)
         else:
             y = self.successor(z)
@@ -202,15 +202,14 @@ class Tree:
         x.parent = y
 
     def __transplant(self, p, q):
-        if not p.parent:
+        if p.parent == nil():
             self.root = q
         elif p == p.parent.left:
             p.parent.left = q
         else:
             p.parent.right = q
 
-        if q:
-            q.parent = p.parent
+        q.parent = p.parent
 
     def __get_height(self):
 
@@ -249,7 +248,7 @@ if __name__ == '__main__':
             key = int(input())
 
             z = t.contains(key)
-            if not z:
+            if z == nil():
                 print(f"{key} is not found in the tree.")
             else:
                 t.remove(z)
@@ -260,11 +259,11 @@ if __name__ == '__main__':
             key = int(input())
 
             z = t.contains(key)
-            if not z:
+            if z == nil():
                 print(f"{key} is not found in the tree.")
             else:
                 succ = t.successor(z)
-                if not succ:
+                if succ == nil():
                     print("successor is None.")
                 else:
                     print(f"successor = {succ.key}")
