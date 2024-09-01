@@ -160,6 +160,7 @@ class Tree:
 
                         remove_internal(z, key)
                     elif i < x.n and x.children[i + 1].n == self.min_degree - 1:
+                        # case 3 - b - (2)
                         y = x.children[i]
                         z = x.children[i + 1]
 
@@ -241,6 +242,7 @@ class Tree:
 if __name__ == '__main__':
     t = Tree()
 
+    # Reference: https://www.cs.utexas.edu/~djimenez/utsa/cs3343/lecture17.html
     t.insert(5)
     t.insert(9)
     t.insert(3)
