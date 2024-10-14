@@ -15,6 +15,7 @@ class Vertex:
         self.distance = 0
         self.predecessor = None
         self.color = color
+        self.discovered_time = self.finished_time = 0
 
 
 class Edge:
