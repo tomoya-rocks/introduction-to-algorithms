@@ -17,6 +17,9 @@ class Vertex:
         self.color = color
         self.discovered_time = self.finished_time = 0
 
+    def __lt__(self, other):
+        return self.distance < other.distance
+
 
 class Edge:
 
