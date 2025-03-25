@@ -34,6 +34,28 @@ class Tree:
 
         self.height = self.__get_height()
 
+    def contains(self, key):
+        p = self.root
+        while p and p.key != key:
+            p = p.left if key < p.key else p.right
+
+        return p
+
+    def successor(self, z):
+        if z.right:
+            p = z.right
+            while p.left:
+                p = p.left
+
+            return p
+        else:
+            p, q = z, z.parent
+            while q and p == q.right:
+                p = q
+                q = p.parent
+
+            return q
+
     def print_tree(self):
 
         def print_tree_internal(r, space_size=0):
@@ -73,8 +95,18 @@ class Tree:
 if __name__ == '__main__':
     t = Tree()
 
+    t.put(Element(8))
+    t.put(Element(3))
+    t.put(Element(10))
+    t.put(Element(1))
+    t.put(Element(6))
+    t.put(Element(14))
+    t.put(Element(4))
+    t.put(Element(7))
+    t.put(Element(13))
+
     while True:
-        print("1:put 2:remove 3:print > ", end='')
+        print("1:put 2:remove 3:print 4:successor > ", end='')
         op = int(input())
 
         if op == 1:
@@ -86,5 +118,18 @@ if __name__ == '__main__':
             pass
         elif op == 3:
             t.print_tree()
+        elif op == 4:
+            print("input key > ", end='')
+            key = int(input())
+
+            z = t.contains(key)
+            if not z:
+                print(f"{key} is not found in the tree.")
+            else:
+                succ = t.successor(z)
+                if not succ:
+                    print(f"successor is none.")
+                else:
+                    print(f"successor = {succ.key}")
         else:
             print("invalid operation")
