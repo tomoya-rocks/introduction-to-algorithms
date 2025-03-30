@@ -13,7 +13,7 @@ def cut_rod(prices, length):
 
 
 if __name__ == '__main__':
-    prices = [0, 1, 5, 8, 9, 17, 17, 20, 24, 30]
+    prices = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
 
     for i in range(len(prices)):
         result = cut_rod(prices, i)
