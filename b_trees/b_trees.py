@@ -29,6 +29,36 @@ class Tree:
         else:
             self.__insert_non_full(r, key)
 
+    def search(self, key):
+        
+        def search_internal(r, key):
+            i = 0
+            while i <= r.n - 1 and r.keys[i] < key:
+                i += 1
+
+            if i <= r.n - 1 and r.keys[i] == key:
+                return r
+            else:
+                if r.is_leaf:
+                    return None
+                else:
+                    return search_internal(r.children[i], key)
+
+        return search_internal(self.root, key)
+
+    def remove(self, key):
+
+        def remove_internal(r, key):
+            i = 0
+            while i <= r.n - 1 and r.keys[i] < key:
+                i += 1
+
+            if i <= r.n - 1 and r.keys[i] == key:
+                if r.is_leaf:
+                    r.keys.pop(i)
+
+        remove_internal(self.root, key)
+
     def __insert_non_full(self, x, key):
         i = x.n - 1
         if x.is_leaf:
@@ -84,6 +114,18 @@ class Tree:
 if __name__ == '__main__':
     t = Tree()
 
+    # https://www.cs.utexas.edu/~djimenez/utsa/cs3343/lecture17.html
+    t.insert(5)
+    t.insert(9)
+    t.insert(3)
+    # t.insert(7)
+    # t.insert(1)
+    # t.insert(2)
+    # t.insert(8)
+    # t.insert(6)
+    # t.insert(0)
+    # t.insert(4)
+
     while True:
         print("1:insert 2:remove 3:print > ", end='')
         op = int(input())
@@ -93,6 +135,15 @@ if __name__ == '__main__':
             key = int(input())
 
             t.insert(key)
+        elif op == 2:
+            print("input key > ", end='')
+            key = int(input())
+
+            x = t.search(key)
+            if not x:
+                print(f"{key} is not found in the tree.")
+            else:
+                t.remove(key)
         elif op == 3:
             t.print_tree()
         else:
