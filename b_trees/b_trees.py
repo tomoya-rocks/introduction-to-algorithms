@@ -55,7 +55,32 @@ class Tree:
 
             if i <= r.n - 1 and r.keys[i] == key:
                 if r.is_leaf:
+                    # case 1
                     r.keys.pop(i)
+                else:
+                    # case 2
+                    if r.children[i].n >= self.min_degree:
+                        replacement = r.children[i].keys[-1]
+                        r.keys[i] = replacement
+                        r.children[i].keys = r.children[i].keys[:-1]
+                        r.children[i].n -= 1
+                    elif r.children[i + 1].n >= self.min_degree:
+                        replacement = r.children[i + 1].keys[0]
+                        r.keys[i] = replacement
+                        r.children[i + 1].keys = r.children[i + 1].keys[1:]
+                        r.children[i + 1].n -= 1
+                    else:
+                        y = r.children[i]
+                        z = r.children[i + 1]
+                        y.keys += x.keys
+                        y.n += x.n
+                        y.keys += z.keys
+                        y.n += z.n
+                        if not y.is_leaf:
+                            y.children += z.children
+                        if self.root == x:
+                            self.root = y
+                        remove_internal(y, key)
 
         remove_internal(self.root, key)
 
@@ -118,13 +143,13 @@ if __name__ == '__main__':
     t.insert(5)
     t.insert(9)
     t.insert(3)
-    # t.insert(7)
-    # t.insert(1)
-    # t.insert(2)
-    # t.insert(8)
-    # t.insert(6)
-    # t.insert(0)
-    # t.insert(4)
+    t.insert(7)
+    t.insert(1)
+    t.insert(2)
+    t.insert(8)
+    t.insert(6)
+    t.insert(0)
+    t.insert(4)
 
     while True:
         print("1:insert 2:remove 3:print > ", end='')
