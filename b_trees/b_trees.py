@@ -57,6 +57,7 @@ class Tree:
                 if r.is_leaf:
                     # case 1
                     r.keys.pop(i)
+                    r.n -= 1
                 else:
                     # case 2
                     if r.children[i].n >= self.min_degree:
@@ -81,6 +82,41 @@ class Tree:
                         if self.root == x:
                             self.root = y
                         remove_internal(y, key)
+            else:
+                # case 3
+                if r.children[i].n == self.min_degree - 1:
+                    if i - 1 >= 0 and r.children[i - 1].n >= self.min_degree:
+                        y = r.children[i - 1]
+                        z = r.children[i]
+
+                        key_to_up = y.keys[-1]
+                        key_to_down = r.keys[i - 1]
+                        y.keys = y.keys[:-1]
+                        y.n -= 1
+                        r.keys[i - 1] = key_to_up
+                        z.keys.insert(0, key_to_down)
+                        z.n += 1
+
+                        if not y.is_leaf:
+                            z.children.insert(0, y.children[-1])
+                            y.children = y.children[:-1]
+                    elif i <= r.n and r.children[i + 1].n >= self.min_degree:
+                        y = r.children[i]
+                        z = r.children[i + 1]
+
+                        key_to_up = z.keys[0]
+                        key_to_down = r.keys[i]
+                        z.keys = z.keys[1:]
+                        z.n -= 1
+                        r.keys[i] = key_to_up
+                        y.keys.append(key_to_down)
+                        y.n += 1
+
+                        if not z.is_leaf:
+                            y.children.append(z.children[0])
+                            z.children = z.children[1:]
+
+                remove_internal(r.children[i], key)
 
         remove_internal(self.root, key)
 
@@ -144,12 +180,12 @@ if __name__ == '__main__':
     t.insert(9)
     t.insert(3)
     t.insert(7)
-    t.insert(1)
-    t.insert(2)
-    t.insert(8)
-    t.insert(6)
-    t.insert(0)
-    t.insert(4)
+    #t.insert(1)
+    #t.insert(2)
+    #t.insert(8)
+    #t.insert(6)
+    #t.insert(0)
+    #t.insert(4)
 
     while True:
         print("1:insert 2:remove 3:print > ", end='')
