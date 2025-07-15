@@ -12,7 +12,8 @@ func main() {
 	fmt.Println(data)
 
 	var op string
-	fmt.Print("input sort (1:insertion sort 2:selection sort) > ")
+	fmt.Print("input sort (1:insertion sort 2:selection sort " +
+		"3:bubble sort) > ")
 	fmt.Scanf("%s", &op)
 
 	switch op {
@@ -20,6 +21,8 @@ func main() {
 		sort_algorithm.InsertionSort(data)
 	case "2":
 		sort_algorithm.SelectionSort(data)
+	case "3":
+		sort_algorithm.BubbleSort(data)
 	}
 
 	fmt.Println("--- after ---")
