@@ -13,7 +13,7 @@ func main() {
 
 	var op string
 	fmt.Print("input sort (1:insertion sort 2:selection sort " +
-		"3:bubble sort) > ")
+		"3:bubble sort 4:merge sort) > ")
 	fmt.Scanf("%s", &op)
 
 	switch op {
@@ -23,6 +23,8 @@ func main() {
 		sort_algorithm.SelectionSort(data)
 	case "3":
 		sort_algorithm.BubbleSort(data)
+	case "4":
+		sort_algorithm.MergeSort(data)
 	}
 
 	fmt.Println("--- after ---")
