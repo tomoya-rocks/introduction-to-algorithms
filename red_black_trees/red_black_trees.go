@@ -175,10 +175,10 @@ func (t *Tree) remove(z *Element) {
 		x = z.left
 		t.transplant(z, z.left)
 	} else {
-		y := t.successor(z)
+		y = t.successor(z)
 		color_of_y = y.color
 		x = y.right
-		if y != z.right {
+		if y.parent != z {
 			t.transplant(y, y.right)
 			y.right = z.right
 			y.right.parent = y
@@ -188,7 +188,7 @@ func (t *Tree) remove(z *Element) {
 
 		t.transplant(z, y)
 		y.left = z.left
-		y.left.parent = z.parent
+		y.left.parent = y
 		y.color = z.color
 	}
 
@@ -212,26 +212,25 @@ func (t *Tree) fixAfterDeletion(x *Element) {
 				w.color = 1
 				t.rotateLeft(x.parent)
 				w = x.parent.right
+			}
+			if w.left.color == 1 && w.right.color == 1 {
+				// case 2
+				w.color = 0
+				x = x.parent
 			} else {
-				if w.left.color == 1 && w.right.color == 1 {
-					// case 2
-					x.parent.color = 0
-					x = x.parent
-				} else {
-					if w.right.color == 1 {
-						// case 3
-						w.left.color = 1
-						w.color = 0
-						t.rotateRight(w)
-						w = x.parent.right
-					}
-					// case 4
-					w.color = x.parent.color
-					x.parent.color = 1
-					w.right.color = 1
-					t.rotateLeft(x.parent)
-					x = t.root
+				if w.right.color == 1 {
+					// case 3
+					w.left.color = 1
+					w.color = 0
+					t.rotateRight(w)
+					w = x.parent.right
 				}
+				// case 4
+				w.color = x.parent.color
+				x.parent.color = 1
+				w.right.color = 1
+				t.rotateLeft(x.parent)
+				x = t.root
 			}
 		} else {
 			w = x.parent.left
@@ -241,26 +240,25 @@ func (t *Tree) fixAfterDeletion(x *Element) {
 				w.color = 1
 				t.rotateRight(x.parent)
 				w = x.parent.left
+			}
+			if w.right.color == 1 && w.left.color == 1 {
+				// case 2
+				w.color = 0
+				x = x.parent
 			} else {
-				if w.right.color == 1 && w.left.color == 1 {
-					// case 2
-					x.parent.color = 0
-					x = x.parent
-				} else {
-					if w.right.color == 1 {
-						// case 3
-						w.left.color = 1
-						w.color = 0
-						t.rotateLeft(w)
-						w = x.parent.left
-					}
-					// case 4
-					w.color = x.parent.color
-					x.parent.color = 1
+				if w.right.color == 1 {
+					// case 3
 					w.left.color = 1
-					t.rotateRight(x.parent)
-					x = t.root
+					w.color = 0
+					t.rotateLeft(w)
+					w = x.parent.left
 				}
+				// case 4
+				w.color = x.parent.color
+				x.parent.color = 1
+				w.left.color = 1
+				t.rotateRight(x.parent)
+				x = t.root
 			}
 		}
 	}
@@ -356,10 +354,10 @@ func main() {
 	t.put(&Element{1, nil, nil, nil, 0})
 	t.put(&Element{4, nil, nil, nil, 0})
 	t.put(&Element{5, nil, nil, nil, 0})
-	t.put(&Element{9, nil, nil, nil, 0})
-	t.put(&Element{3, nil, nil, nil, 0})
-	t.put(&Element{6, nil, nil, nil, 0})
-	t.put(&Element{7, nil, nil, nil, 0})
+	//t.put(&Element{9, nil, nil, nil, 0})
+	//t.put(&Element{3, nil, nil, nil, 0})
+	//t.put(&Element{6, nil, nil, nil, 0})
+	//t.put(&Element{7, nil, nil, nil, 0})
 
 	for {
 		fmt.Print("1:put 2:remove 3:print 4:successor > ")
