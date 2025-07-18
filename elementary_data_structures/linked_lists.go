@@ -16,7 +16,7 @@ type List struct {
 	tail *Element
 }
 
-func append(l *List, z *Element) {
+func (l *List) append(z *Element) {
 	l.size += 1
 
 	if l.head == nil {
@@ -28,7 +28,7 @@ func append(l *List, z *Element) {
 	l.tail = z
 }
 
-func contains(l *List, data int) *Element {
+func (l *List) contains(data int) *Element {
 	for p := l.head; p != nil; p = p.next {
 		if p.data == data {
 			return p
@@ -38,7 +38,7 @@ func contains(l *List, data int) *Element {
 	return nil
 }
 
-func remove(l *List, z *Element) {
+func (l *List) remove(z *Element) {
 	l.size -= 1
 
 	if z.next != nil {
@@ -54,7 +54,7 @@ func remove(l *List, z *Element) {
 	z = nil
 }
 
-func printList(l *List) {
+func (l *List) printList() {
 	fmt.Printf("size = %d\n", l.size)
 
 	fmt.Println("--- from head to tail ---")
@@ -91,20 +91,20 @@ func main() {
 			fmt.Scanf("%d", &data)
 
 			z := Element{data, nil, nil}
-			append(&l, &z)
+			l.append(&z)
 		case 2:
 			fmt.Print("input data > ")
 			var data int
 			fmt.Scanf("%d", &data)
 
-			z := contains(&l, data)
+			z := l.contains(data)
 			if z == nil {
 				fmt.Printf("%d is not found in the list.\n", data)
 			} else {
-				remove(&l, z)
+				l.remove(z)
 			}
 		case 3:
-			printList(&l)
+			l.printList()
 		default:
 			fmt.Println("invalid operation")
 		}
