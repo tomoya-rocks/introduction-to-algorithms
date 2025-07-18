@@ -14,14 +14,14 @@ type Stack struct {
 	head *Element
 }
 
-func push(s *Stack, z *Element) {
+func (s *Stack) push(z *Element) {
 	s.size += 1
 
 	z.next = s.head
 	s.head = z
 }
 
-func pop(s *Stack) int {
+func (s *Stack) pop() int {
 	if s.size == 0 {
 		fmt.Println("stack is empty.")
 
@@ -38,7 +38,7 @@ func pop(s *Stack) int {
 	return result
 }
 
-func printStack(s *Stack) {
+func (s *Stack) printStack() {
 	fmt.Printf("size = %d : ", s.size)
 
 	p := s.head
@@ -69,14 +69,14 @@ func main() {
 			fmt.Scanf("%d", &data)
 
 			z := Element{data, nil}
-			push(&s, &z)
+			s.push(&z)
 		case 2:
-			result := pop(&s)
+			result := s.pop()
 			if result != -1 {
 				fmt.Printf("result = %d\n", result)
 			}
 		case 3:
-			printStack(&s)
+			s.printStack()
 		default:
 			fmt.Println("invalid operation")
 		}

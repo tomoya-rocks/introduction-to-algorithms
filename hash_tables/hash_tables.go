@@ -13,7 +13,7 @@ type Hashtable struct {
 	table      []*Element
 }
 
-func put(ht *Hashtable, z *Element) {
+func (ht *Hashtable) put(z *Element) {
 	hashVal := calculateHashValue(ht, z.key)
 
 	if ht.table[hashVal] != nil {
@@ -23,7 +23,7 @@ func put(ht *Hashtable, z *Element) {
 	ht.table[hashVal] = z
 }
 
-func contains(ht *Hashtable, key int) *Element {
+func (ht *Hashtable) contains(key int) *Element {
 	hashVal := calculateHashValue(ht, key)
 
 	for p := ht.table[hashVal]; p != nil; p = p.next {
@@ -35,7 +35,7 @@ func contains(ht *Hashtable, key int) *Element {
 	return nil
 }
 
-func remove(ht *Hashtable, z *Element) {
+func (ht *Hashtable) remove(z *Element) {
 	hashVal := calculateHashValue(ht, z.key)
 
 	if z.next != nil {
@@ -49,7 +49,7 @@ func remove(ht *Hashtable, z *Element) {
 	z = nil
 }
 
-func printHashtable(ht *Hashtable) {
+func (ht *Hashtable) printHashtable() {
 	for i := 0; i < ht.bucketSize; i++ {
 		fmt.Printf("%d : ", i)
 
@@ -73,7 +73,7 @@ func main() {
 
 	for i := 1; i <= 100; i++ {
 		z := Element{i, nil, nil}
-		put(&ht, &z)
+		ht.put(&z)
 	}
 
 	for {
@@ -88,20 +88,20 @@ func main() {
 			fmt.Scanf("%d", &data)
 
 			z := Element{data, nil, nil}
-			put(&ht, &z)
+			ht.put(&z)
 		case 2:
 			fmt.Print("input data > ")
 			var data int
 			fmt.Scanf("%d", &data)
 
-			z := contains(&ht, data)
+			z := ht.contains(data)
 			if z == nil {
 				fmt.Printf("%d is not found in the hash table.\n", data)
 			} else {
-				remove(&ht, z)
+				ht.remove(z)
 			}
 		case 3:
-			printHashtable(&ht)
+			ht.printHashtable()
 		default:
 			fmt.Println("invalid operation")
 		}

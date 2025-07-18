@@ -15,7 +15,7 @@ type Queue struct {
 	tail *Element
 }
 
-func enqueue(q *Queue, z *Element) {
+func (q *Queue) enqueue(z *Element) {
 	q.size += 1
 
 	if q.head == nil {
@@ -26,7 +26,7 @@ func enqueue(q *Queue, z *Element) {
 	q.tail = z
 }
 
-func dequeue(q *Queue) int {
+func (q *Queue) dequeue() int {
 	if q.size == 0 {
 		fmt.Println("queue is empty.")
 
@@ -43,7 +43,7 @@ func dequeue(q *Queue) int {
 	return result
 }
 
-func printQueue(q *Queue) {
+func (q *Queue) printQueue() {
 	fmt.Printf("size = %d : ", q.size)
 
 	p := q.head
@@ -74,14 +74,14 @@ func main() {
 			fmt.Scanf("%d", &data)
 
 			z := Element{data, nil}
-			enqueue(&q, &z)
+			q.enqueue(&z)
 		case 2:
-			result := dequeue(&q)
+			result := q.dequeue()
 			if result != -1 {
 				fmt.Printf("result = %d\n", result)
 			}
 		case 3:
-			printQueue(&q)
+			q.printQueue()
 		default:
 			fmt.Println("invalid operation")
 		}
