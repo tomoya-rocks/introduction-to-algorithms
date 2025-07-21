@@ -8,14 +8,37 @@ import (
 )
 
 func matrixChainOrder(p []int, i, j int) int {
-	if i == j {
-		return 0
+	results := make([][]int, j+1)
+	for i := range results {
+		results[i] = make([]int, j+1)
+	}
+
+	for i := 0; i < len(results); i += 1 {
+		for j := 0; j < len(results); j += 1 {
+			if i != j {
+				results[i][j] = math.MaxInt
+			}
+		}
+	}
+
+	return matrixChainOrderInternal(p, i, j, results)
+}
+
+func matrixChainOrderInternal(p []int, i, j int, results [][]int) int {
+	if results[i][j] < math.MaxInt {
+		return results[i][j]
 	}
 
 	result := math.MaxInt
-	for k := i; k < j; k++ {
-		result = min(result, matrixChainOrder(p, i, k)+matrixChainOrder(p, k+1, j)+p[i]*p[k+1]*p[j+1])
+	if i == j {
+		result = 0
+	} else {
+		for k := i; k < j; k++ {
+			result = min(result, matrixChainOrderInternal(p, i, k, results)+matrixChainOrderInternal(p, k+1, j, results)+p[i]*p[k+1]*p[j+1])
+		}
 	}
+
+	results[i][j] = result
 
 	return result
 }
